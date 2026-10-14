@@ -22,17 +22,18 @@ The project uses Node.js, Express.js, MySQL, HTML, CSS, and JavaScript.
 
 ## Technologies Used
 
-- Frontend: HTML, CSS, JavaScript
-- Backend: Node.js and Express.js
-- Database: MySQL
-- API testing: Postman-compatible collection
+- **Frontend:** HTML, CSS, JavaScript
+- **Backend:** Node.js and Express.js
+- **Database:** MySQL
+- **API Testing:** Bruno
 
 ## Project Structure
 
 - `backend/` — Express server, database connection, and API routes.
 - `frontend/` — HTML, CSS, and JavaScript files.
 - `database/schema.sql` — SQL script to create the database and table.
-- `postman/research-portal.postman_collection.json` — API test collection.
+- `bruno/University Research Opportunity Portal API/` — Bruno API testing collection.
+- `postman/research-portal.postman_collection.json` — Additional Postman-compatible API collection.
 - `README.md` — Project documentation.
 
 ## Requirements
@@ -59,7 +60,7 @@ Do not upload your actual `.env` file or passwords to GitHub.
 
 ## Backend Setup
 
-Open a terminal and run:
+Open a terminal and run these commands:
 
 ```bash
 cd backend
@@ -69,9 +70,11 @@ npm start
 
 The API server runs on port `3000` by default.
 
-Check the database connection using:
+Check the server and database connection at:
 
 `http://localhost:3000/api/health`
+
+A successful health check returns a response indicating that the server is running and the database is connected.
 
 ## Frontend Setup
 
@@ -92,14 +95,29 @@ Keep the backend running while using the frontend.
 
 The API validates input and returns appropriate HTTP status codes, including `200`, `201`, `400`, `404`, and `500`.
 
-## API Testing
+## API Testing with Bruno
 
-Import `postman/research-portal.postman_collection.json` into Postman to run the included API requests.
+Bruno was used to test the REST API endpoints. The collection is included in the `bruno/` directory.
 
-The collection covers creating, listing, viewing, updating, closing, and deleting opportunities, as well as invalid input and not-found responses.
+The tests cover:
 
-Ensure the backend and database are running before testing.
+- Health check and database connectivity.
+- Creating an opportunity.
+- Retrieving all opportunities.
+- Retrieving a specific opportunity.
+- Updating an opportunity.
+- Closing an opportunity by changing its status to Closed.
+- Rejecting an empty create request.
+- Deleting an opportunity.
+- Verifying that a deleted or nonexistent opportunity returns `404 Not Found`.
+
+The API tests returned the expected responses during testing, including `200 OK`, `201 Created`, `400 Bad Request`, and `404 Not Found`.
+
+To repeat the tests, open the Bruno collection and ensure the backend and database are running first.
+
+An additional Postman-compatible collection is also included in `postman/`.
 
 ## Author
 
 **Project:** University Research Opportunity Portal
+
