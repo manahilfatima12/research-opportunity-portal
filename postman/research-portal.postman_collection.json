@@ -1,0 +1,247 @@
+{
+  "info": {
+    "name": "University Research Opportunity Portal API",
+    "description": "API tests for opportunity CRUD, validation, and not-found responses.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "opportunityId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/health"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Health check returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create Opportunity",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Test Research Opportunity\",\n  \"description\": \"A test opportunity created through the API collection.\",\n  \"research_area\": \"Artificial Intelligence\",\n  \"faculty_name\": \"Dr. Ahmed\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, teamwork\",\n  \"available_positions\": 2,\n  \"application_deadline\": \"2027-12-31\",\n  \"status\": \"Open\"\n}"
+        },
+        "url": "{{baseUrl}}/api/opportunities"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Opportunity is created with 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "if (pm.response.code === 201) {",
+              "    const data = pm.response.json();",
+              "    const id = data.id || (data.opportunity && data.opportunity.id);",
+              "    if (id !== undefined) pm.collectionVariables.set('opportunityId', String(id));",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get All Opportunities",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/opportunities"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('List opportunities returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response is a JSON array', function () {",
+              "    pm.expect(pm.response.json()).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get One Opportunity",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Get one opportunity returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Opportunity",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Test Research Opportunity\",\n  \"description\": \"Updated through the API collection.\",\n  \"research_area\": \"Artificial Intelligence\",\n  \"faculty_name\": \"Dr. Ahmed\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, teamwork\",\n  \"available_positions\": 2,\n  \"application_deadline\": \"2027-12-31\",\n  \"status\": \"Open\"\n}"
+        },
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Update returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Close Opportunity",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Updated Test Research Opportunity\",\n  \"description\": \"Closed through the API collection.\",\n  \"research_area\": \"Artificial Intelligence\",\n  \"faculty_name\": \"Dr. Ahmed\",\n  \"department\": \"Computer Science\",\n  \"required_skills\": \"Python, teamwork\",\n  \"available_positions\": 2,\n  \"application_deadline\": \"2027-12-31\",\n  \"status\": \"Closed\"\n}"
+        },
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Closing opportunity returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invalid Empty Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": "{{baseUrl}}/api/opportunities"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Empty input returns 400', function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Opportunity",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Delete returns 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Deleted Opportunity (404)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/opportunities/{{opportunityId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Deleted opportunity returns 404', function () {",
+              "    pm.response.to.have.status(404);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

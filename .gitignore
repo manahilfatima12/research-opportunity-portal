@@ -1,2 +1,20 @@
 node_modules/
 .env
+# Node.js dependencies
+node_modules/
+
+# Environment variables and secrets
+.env
+.env.*
+
+# Keep an example environment file if added later
+!.env.example
+
+# Temporary and editor files
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Python notebook checkpoints
+.ipynb_checkpoints/
