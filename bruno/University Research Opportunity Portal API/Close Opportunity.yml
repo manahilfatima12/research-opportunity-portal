@@ -1,0 +1,41 @@
+info:
+  name: Close Opportunity
+  type: http
+  seq: 6
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/opportunities/{{opportunityId}}"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Updated Test Research Opportunity",
+        "description": "Closed through the API collection.",
+        "research_area": "Artificial Intelligence",
+        "faculty_name": "Dr. Ahmed",
+        "department": "Computer Science",
+        "required_skills": "Python, teamwork",
+        "available_positions": 2,
+        "application_deadline": "2027-12-31",
+        "status": "Closed"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test('Closing opportunity returns 200', function () {
+            expect(res.getStatus()).to.equal(200);
+        });
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

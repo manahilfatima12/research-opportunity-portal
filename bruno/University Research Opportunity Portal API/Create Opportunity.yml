@@ -1,0 +1,46 @@
+info:
+  name: Create Opportunity
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{baseUrl}}/api/opportunities"
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "title": "Test Research Opportunity",
+        "description": "A test opportunity created through the API collection.",
+        "research_area": "Artificial Intelligence",
+        "faculty_name": "Dr. Ahmed",
+        "department": "Computer Science",
+        "required_skills": "Python, teamwork",
+        "available_positions": 2,
+        "application_deadline": "2027-12-31",
+        "status": "Open"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test('Opportunity is created with 201', function () {
+            expect(res.getStatus()).to.equal(201);
+        });
+        if (res.getStatus() === 201) {
+            const data = res.getBody();
+            const id = data.id || (data.opportunity && data.opportunity.id);
+            if (id !== undefined) bru.setCollectionVar('opportunityId', String(id));
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

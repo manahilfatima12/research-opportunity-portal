@@ -1,0 +1,32 @@
+opencollection: 1.0.0
+
+info:
+  name: University Research Opportunity Portal API
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  variables:
+    - name: baseUrl
+      value: http://localhost:3000
+    - name: opportunityId
+      value: "4"
+
+docs:
+  content: API tests for opportunity CRUD, validation, and not-found responses.
+  type: text/markdown
+bundled: false
+extensions:
+  bruno:
+    ignore:
+      - node_modules
+      - .git
